@@ -1,0 +1,196 @@
+body {
+    margin-top: 0;
+}
+
+
+
+aside {
+    margin-bottom: 10px;
+}
+
+.heading {
+    padding-bottom: 10px;
+    font-family: 'Alfa Slab One', cursive;
+    text-shadow: 3px 3px 5px silver;
+    color: black; /* Set font color to black */
+    line-height: 1px; /* Center vertically */
+    text-align: center; /* Align the text in the center */
+    margin-bottom: -20px; /* Move the heading upward without affecting next section */
+    position: relative; /* Use relative positioning */
+    top: -200px; /* Adjust the heading position upward */
+    left: 125px; /* Adjust the heading position to the right */
+}
+
+
+
+
+
+
+.pic {
+    height: 90px; /* Adjust the height of the circle */
+    width: 90px; /* Adjust the width of the circle */
+    padding: 8px; /* Adjust the padding to control the size of the inner circle */
+    border-width: 5px; /* Adjust the border width to fit the logo properly */
+    border-style: solid;
+    border-radius: 100%; /* Use 50% border-radius to create a circle */
+    box-shadow: 5px 5px 5px grey;
+    color: black;
+}
+
+
+#timeline {
+    margin-bottom: 50px;
+}
+
+#timeline h2 {
+    margin-bottom: 50px;
+}
+
+li {
+    padding-bottom: 10px;
+}
+
+#middle-section {
+    padding: 30px;
+    border: 5px solid #33336b;
+    box-shadow: 2px 2px 2px silver;
+    border-radius: 10px;
+    background-image: url(http://www.designbolts.com/wp-content/uploads/2012/12/Simple-Horizontal-Seamless-Pattern-For-Website-Background.jpg);
+    display: flex; /* Use flexbox */
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+}
+
+#border {
+    background-color: #1a0066;
+    padding-top: 60px;
+}
+
+.image {
+    border-style: outset;
+    border-width: 8px;
+}
+
+#grad {
+    margin-left: -20px;
+    margin-right: -20px;
+    border-top: 5px solid silver;
+    background: #1a0066; /* For browsers that do not support gradients */
+    background: -webkit-linear-gradient(red, yellow); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(red, yellow); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(red, yellow); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(to bottom right, blue, black); /* Standard syntax */
+}
+
+#bottom-nav {
+    margin-top: 30px;
+    margin-bottom: 10px;
+}
+
+#bottom-nav h5 {
+    padding-top: 5px;
+}
+
+.img-carousel {
+    width: 100vw;
+    border: 5px solid silver;
+    border-style: groove;
+}
+
+#section2 {
+    margin-left: 20px;
+}
+
+h2 {
+    font-family: 'Dancing Script', cursive;
+    font-size: 15;
+    font-weight: bold;
+    text-shadow: 2px 2px 2px silver;
+}
+
+address {
+    border: 2px solid blue;
+    border-radius: 20px;
+    padding: 20px;
+    margin-top: 20px;
+}
+
+aside {
+    border: 3px solid #ccc;
+    border-style: double;
+    margin-left: 20px;
+    vertical-align: top;
+    display: inline-block;
+    width: 25%;
+}
+
+.main {
+    margin-top: 30px;
+}
+
+time {
+    color: #666666;
+    font-style: italic;
+    margin-top: 10px;
+}
+
+h3 {
+    font-family: 'Lobster', cursive;
+    color: #936c6c;
+    padding-bottom: 15px;
+}
+
+#underline {
+    text-decoration: underline;
+}
+
+.extra-space {
+    margin-bottom: 20px;
+}
+
+hr.style1 {
+    border: 5px solid #33336b;
+    box-shadow: 2px 2px 2px silver;
+    border-radius: 10px;
+    margin-top: 60px;
+}
+
+.events {
+    padding-top: 100px;
+    text-decoration: underline;
+}
+
+.subheading {
+    font-size: smaller;
+    font-family: helvetica;
+}
+
+#directions {
+    margin-bottom: 20px;
+}
+
+.google-maps {
+    position: relative;
+    padding-bottom: 40%;
+    height: 0;
+    overflow: hidden;
+}
+
+.google-maps iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100% !important;
+    height: 100% !important;
+}
+
+
+
+.icon-text {
+    display: block; /* Make the text appear on a new line */
+    margin-top: 10px;
+    ; /* Adjust the spacing between the icon and text */
+    margin-right: 200px;
+    text-align: center; /* Center the text horizontally */
+}
+

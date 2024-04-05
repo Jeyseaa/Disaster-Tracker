@@ -1,0 +1,77 @@
+.container__slider {
+    position: relative;
+    width: 100%;
+    padding: 0;
+    overflow: hidden;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    background-color: black;
+  }
+  
+  .container__slider > button {
+    background-color: transparent;
+    outline: none;
+    border: 0;
+    color: whitesmoke;
+    font-size: 24px;
+  }
+  
+  .container__slider > button:active {
+    color: black;
+  }
+  
+  .slider__btn-next,
+  .slider__btn-prev {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  
+  .slider__btn-next {
+    right: 0;
+  }
+  
+  .slider__btn-prev {
+    left: 0;
+  }
+  
+  .container__slider__links {
+    position: absolute;
+    bottom: 5%;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  
+  .container__slider__links-small {
+    position: relative;
+    width: 8px;
+    height: 8px;
+    padding: 0;
+    margin: 0 2px;
+    border-radius: 50%;
+    outline: none;
+    border: 1px solid grey;
+    background-color: white;
+    transition: background-color 1s ease;
+  }
+  
+  .container__slider__links-small-active {
+    background-color: black;
+  }
+  
+  .slider__item {
+    display: none; /* Hide all slides by default */
+  }
+  
+  .slider__item-active {
+    display: block; /* Display only the active slide */
+  }
+  
+  .slider__item img {
+    width: 100%;
+    height: auto;
+  }
+  
