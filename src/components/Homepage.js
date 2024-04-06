@@ -11,12 +11,13 @@ function Homepage() {
         <header className="col-xs-12">
           <div className="col-xs-3 col-sm-2">
             <h1>
-              <img
-                src="https://scontent.fmnl30-3.fna.fbcdn.net/v/t39.30808-6/243344420_198303265736518_5346706181925623874_n.jpg?_nc_cat=108&ccb=1-7&_nc_sid=5f2048&_nc_eui2=AeHk2Euv7urYjfjxDZ_3I04HtZ4nAI50ih21nicAjnSKHVgJ69feKmJbjijPjl0wanUsiuwqZLMJhcOVknnOGPVh&_nc_ohc=p-CX7Jz3cGoAX9pmCHJ&_nc_ht=scontent.fmnl30-3.fna&oh=00_AfBzOLGQ6cPkwck4R5NQgE2DYrLQPNrFFGyrz2bIQ2TJgw&oe=661010B9"
-                alt="logo"
-                className="img-responsive"
-                style={{ width: '300px', height: '300px' }} 
-              />
+            <img
+  src="https://i.ibb.co/dtXtqss/Flag-of-Camiling-Tarlac-1-2.png"
+  alt="logo"
+  className="img-responsive"
+  style={{ width: '300px', height: '300px' }} 
+/>
+
               <h3 className="col-xs-9 col-sm-10 heading">
                 Camiling Municipal Hall
                 <span className="hidden-xs hidden-sm subheading" id="subheading">
