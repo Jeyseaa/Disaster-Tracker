@@ -1,8 +1,7 @@
 import { initializeApp } from 'firebase/app'; 
-import { getAuth } from 'firebase/auth'; 
+import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth'; 
 import { getFirestore } from 'firebase/firestore';
 import { getDatabase } from 'firebase/database'; 
-
 
 const firebaseConfig = {
   apiKey: "AIzaSyCZNzV46ZpxIPOZIsBoAzOpnl6mdyCP_RM",
@@ -15,6 +14,7 @@ const firebaseConfig = {
   measurementId: "G-F0WTCPNT87"
 };
 
+
 // Initialize Firebase
 const firebaseApp = initializeApp(firebaseConfig);
 
@@ -25,10 +25,9 @@ const database = getDatabase(firebaseApp);
 
 export { auth, firestore, database };
 
-// Now, let's use createUserWithEmailAndPassword function
-
+// Function to handle user sign up
 const handleSignUpSubmit = (email, password) => {
-  auth.createUserWithEmailAndPassword(email, password)
+  createUserWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
       // User created successfully
       const user = userCredential.user;

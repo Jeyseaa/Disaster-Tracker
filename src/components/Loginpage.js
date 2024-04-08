@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth'; // Import getAuth, createUserWithEmailAndPassword, and signInWithEmailAndPassword from Firebase Auth
-import { auth, firestore, database } from '../firebase'; // Import firestore and database objects from Firebase
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
+import { firestore, database } from '../firebase'; // Check this import
 import "../styles/login.css";
 
 function Loginpage() {
@@ -51,6 +51,8 @@ function Loginpage() {
       setErrorMessage('Passwords do not match');
       return;
     }
+
+    const auth = getAuth();
     createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         const user = userCredential.user;
@@ -59,7 +61,7 @@ function Loginpage() {
           email: email,
           mobile: mobile,
           barangay: barangay,
-          approved: false // Default to false until admin approval
+          approved: false
         })
         .then(() => {
           console.log('User data saved to Firestore');
@@ -70,7 +72,7 @@ function Loginpage() {
         database.ref('users/' + user.uid).set({
           email: email,
           fullName: fullName,
-          approved: false // Default to false until admin approval
+          approved: false
         });
         console.log('User signed up:', user);
       })
@@ -79,18 +81,15 @@ function Loginpage() {
         console.error('Error signing up:', error);
       });
   };
-  
 
   const handleLoginSubmit = (e) => {
     e.preventDefault();
-    signInWithEmailAndPassword(getAuth(), email, password) // Use signInWithEmailAndPassword function
+    signInWithEmailAndPassword(getAuth(), email, password)
       .then((userCredential) => {
-        // Handle successful login
         const user = userCredential.user;
         console.log('User logged in:', user);
       })
       .catch((error) => {
-        // Handle login error
         setErrorMessage(error.message);
         console.error('Error logging in:', error);
       });
@@ -129,69 +128,70 @@ function Loginpage() {
                 </div>
                 <div className="forms_field">
                   <select className="forms_field-input" value={barangay} onChange={handleBarangayChange} required>
-                  <option value="">Select Barangay</option>
-  <option value="Anoling 1st">Anoling 1st</option>
-  <option value="Anoling 2nd">Anoling 2nd</option>
-  <option value="Anoling 3rd">Anoling 3rd</option>
-  <option value="Bacabac">Bacabac</option>
-  <option value="Bacsay">Bacsay</option>
-  <option value="Bancay 1st">Bancay 1st</option>
-  <option value="Bilad">Bilad</option>
-  <option value="Birbira">Birbira</option>
-  <option value="Bobon 1st Casarratan">Bobon 1st Casarratan</option>
-  <option value="Bobon 2nd">Bobon 2nd</option>
-  <option value="Bobon Caarosipan">Bobon Caarosipan</option>
-  <option value="Cabanabaan">Cabanabaan</option>
-  <option value="Cacamilingan Norte (with Kipping village)">Cacamilingan Norte (with Kipping village)</option>
-  <option value="Cacamilingan Sur">Cacamilingan Sur</option>
-  <option value="Caniag">Caniag</option>
-  <option value="Carael">Carael</option>
-  <option value="Cayaoan">Cayaoan</option>
-  <option value="Cayasan">Cayasan</option>
-  <option value="Florida">Florida</option>
-  <option value="Lasong">Lasong</option>
-  <option value="Libueg (with sitio Pugo)">Libueg (with sitio Pugo)</option>
-  <option value="Malacampa (With sitio Cacelestinuan and Sitio Camartinisan)">Malacampa (With sitio Cacelestinuan and Sitio Camartinisan)</option>
-  <option value="Manaquem">Manaquem</option>
-  <option value="Manupeg">Manupeg</option>
-  <option value="Marawi">Marawi</option>
-  <option value="Matubog">Matubog</option>
-  <option value="Nagrambacan">Nagrambacan</option>
-  <option value="Nagserialan">Nagserialan</option>
-  <option value="Palimbo Proper">Palimbo Proper</option>
-  <option value="Palimbo Caarosipan">Palimbo Caarosipan</option>
-  <option value="Pao 1st">Pao 1st</option>
-  <option value="Pao 2nd">Pao 2nd</option>
-  <option value="Pao 3rd">Pao 3rd</option>
-  <option value="Papaac">Papaac</option>
-  <option value="Pindangan 1st">Pindangan 1st</option>
-  <option value="Pindangan 2nd">Pindangan 2nd</option>
-  <option value="Poblacion A">Poblacion A</option>
-  <option value="Poblacion B">Poblacion B</option>
-  <option value="Poblacion C">Poblacion C</option>
-  <option value="Poblacion D">Poblacion D</option>
-  <option value="Poblacion E">Poblacion E</option>
-  <option value="Poblacion F">Poblacion F</option>
-  <option value="Poblacion G">Poblacion G</option>
-  <option value="Poblacion H">Poblacion H</option>
-  <option value="Poblacion I">Poblacion I</option>
-  <option value="Poblacion J">Poblacion J</option>
-  <option value="San Isidro (Bancay 2nd)">San Isidro (Bancay 2nd)</option>
-  <option value="Santa Maria">Santa Maria</option>
-  <option value="Sawat">Sawat</option>
-  <option value="Sinilian 1st (with Sitio Cabalaongan and Nangalisan)">Sinilian 1st (with Sitio Cabalaongan and Nangalisan)</option>
-  <option value="Sinilian 2nd (with Sitio Barikir)">Sinilian 2nd (with Sitio Barikir)</option>
-  <option value="Sinilian 3rd (Northern, Bitawa, Centro)">Sinilian 3rd (Northern, Bitawa, Centro)</option>
-  <option value="Sinilian Cacalibosuan">Sinilian Cacalibosuan</option>
-  <option value="Sinulatan 1st">Sinulatan 1st</option>
-  <option value="Sinulatan 2nd">Sinulatan 2nd</option>
-  <option value="Surgui 1st">Surgui 1st</option>
-  <option value="Surgui 2nd">Surgui 2nd</option>
-  <option value="Surgui 3rd">Surgui 3rd</option>
-  <option value="Tambugan">Tambugan</option>
-  <option value="Telbang">Telbang</option>
-  <option value="Tuec">Tuec</option>
-</select>
+                    <option value="">Select Barangay</option>
+                    <option value="Anoling 1st">Anoling 1st</option>
+<option value="Anoling 2nd">Anoling 2nd</option>
+<option value="Anoling 3rd">Anoling 3rd</option>
+<option value="Bacabac">Bacabac</option>
+<option value="Bacsay">Bacsay</option>
+<option value="Bancay 1st">Bancay 1st</option>
+<option value="Bilad">Bilad</option>
+<option value="Birbira">Birbira</option>
+<option value="Bobon 1st Casarratan">Bobon 1st Casarratan</option>
+<option value="Bobon 2nd">Bobon 2nd</option>
+<option value="Bobon Caarosipan">Bobon Caarosipan</option>
+<option value="Cabanabaan">Cabanabaan</option>
+<option value="Cacamilingan Norte (with Kipping village)">Cacamilingan Norte (with Kipping village)</option>
+<option value="Cacamilingan Sur">Cacamilingan Sur</option>
+<option value="Caniag">Caniag</option>
+<option value="Carael">Carael</option>
+<option value="Cayaoan">Cayaoan</option>
+<option value="Cayasan">Cayasan</option>
+<option value="Florida">Florida</option>
+<option value="Lasong">Lasong</option>
+<option value="Libueg (with sitio Pugo)">Libueg (with sitio Pugo)</option>
+<option value="Malacampa (With sitio Cacelestinuan and Sitio Camartinisan)">Malacampa (With sitio Cacelestinuan and Sitio Camartinisan)</option>
+<option value="Manaquem">Manaquem</option>
+<option value="Manupeg">Manupeg</option>
+<option value="Marawi">Marawi</option>
+<option value="Matubog">Matubog</option>
+<option value="Nagrambacan">Nagrambacan</option>
+<option value="Nagserialan">Nagserialan</option>
+<option value="Palimbo Proper">Palimbo Proper</option>
+<option value="Palimbo Caarosipan">Palimbo Caarosipan</option>
+<option value="Pao 1st">Pao 1st</option>
+<option value="Pao 2nd">Pao 2nd</option>
+<option value="Pao 3rd">Pao 3rd</option>
+<option value="Papaac">Papaac</option>
+<option value="Pindangan 1st">Pindangan 1st</option>
+<option value="Pindangan 2nd">Pindangan 2nd</option>
+<option value="Poblacion A">Poblacion A</option>
+<option value="Poblacion B">Poblacion B</option>
+<option value="Poblacion C">Poblacion C</option>
+<option value="Poblacion D">Poblacion D</option>
+<option value="Poblacion E">Poblacion E</option>
+<option value="Poblacion F">Poblacion F</option>
+<option value="Poblacion G">Poblacion G</option>
+<option value="Poblacion H">Poblacion H</option>
+<option value="Poblacion I">Poblacion I</option>
+<option value="Poblacion J">Poblacion J</option>
+<option value="San Isidro (Bancay 2nd)">San Isidro (Bancay 2nd)</option>
+<option value="Santa Maria">Santa Maria</option>
+<option value="Sawat">Sawat</option>
+<option value="Sinilian 1st (with Sitio Cabalaongan and Nangalisan)">Sinilian 1st (with Sitio Cabalaongan and Nangalisan)</option>
+<option value="Sinilian 2nd (with Sitio Barikir)">Sinilian 2nd (with Sitio Barikir)</option>
+<option value="Sinilian 3rd (Northern, Bitawa, Centro)">Sinilian 3rd (Northern, Bitawa, Centro)</option>
+<option value="Sinilian Cacalibosuan">Sinilian Cacalibosuan</option>
+<option value="Sinulatan 1st">Sinulatan 1st</option>
+<option value="Sinulatan 2nd">Sinulatan 2nd</option>
+<option value="Surgui 1st">Surgui 1st</option>
+<option value="Surgui 2nd">Surgui 2nd</option>
+<option value="Surgui 3rd">Surgui 3rd</option>
+<option value="Tambugan">Tambugan</option>
+<option value="Telbang">Telbang</option>
+<option value="Tuec">Tuec</option>
+
+                  </select>
                 </div>
                 <div className="forms_field">
                   <input type="password" placeholder="Password" className="forms_field-input" value={password} onChange={handlePasswordChange} required />
