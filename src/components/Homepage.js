@@ -60,7 +60,7 @@ function Homepage() {
             {/* Add children for the carousel */}
             <img src="https://moncadatarlac.gov.ph/wp-content/uploads/2024/01/422917710_982735346532836_4579899017081015332_n.jpg" alt="Slide 1" />
             <img src="https://scontent.fmnl30-2.fna.fbcdn.net/v/t31.18172-8/15800084_1356534537752634_6787498943745352373_o.jpg?_nc_cat=111&ccb=1-7&_nc_sid=5f2048&_nc_eui2=AeHjYWBA8Adko3Rx79fA7cw-6zxvUDkvrZjrPG9QOS-tmI-k53Bk_iX_H4Rcrd7ujWxjSZ4TUUsySJ25Nn59EuQA&_nc_ohc=dYbJSt_vlywAX_hzvU5&_nc_ht=scontent.fmnl30-2.fna&oh=00_AfAw_7QnD-xBWJOvTgXIH2Engu3M0_1IYCLEXnVgoKd3Wg&oe=6631D3BB" alt="Slide 2" />
-            <img src="https://scontent.fmnl30-1.fna.fbcdn.net/v/t39.30808-6/361173873_606517021616258_3859831774224325536_n.jpg?stp=cp6_dst-jpg&_nc_cat=106&ccb=1-7&_nc_sid=5f2048&_nc_eui2=AeH0Eqdj_S8B4DagB6UCjJEu6BQElab0apXoFASVpvRqlSkC8UR3XzxfIykL_p4iy0BRsB4dFiX69iqqn3siPTQ8&_nc_ohc=H__fxquQo08AX8JKn4b&_nc_ht=scontent.fmnl30-1.fna&oh=00_AfAtQKNqiOInisYzBAoJ0b1r888jBejCHRjmKIewXI4KLQ&oe=66103BF5" alt="Slide 3" />
+            <img src="https://scontent.fmnl30-3.fna.fbcdn.net/v/t39.30808-6/365466649_612065911061369_3601836126591747095_n.jpg?stp=cp6_dst-jpg&_nc_cat=101&ccb=1-7&_nc_sid=5f2048&_nc_ohc=OrBWxSd1c_EAb6A18Qz&_nc_ht=scontent.fmnl30-3.fna&oh=00_AfCtAZ2H-LPMgOxJqb497mZubtkzzCC9NcZpbKaea90uAg&oe=661A9A48" alt="Slide 3" />
           </CustomCarousel>
 
           <div className="well" id="grad">

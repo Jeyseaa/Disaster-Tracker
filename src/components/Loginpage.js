@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
-import { firestore, database } from '../firebase'; // Check this import
+import { getDatabase, ref, set, get } from 'firebase/database'; // Import get function
+import { getFirestore, doc as firestoreDoc, setDoc } from 'firebase/firestore'; // Import firestore
 import "../styles/login.css";
 
 function Loginpage() {
@@ -56,7 +57,8 @@ function Loginpage() {
     createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         const user = userCredential.user;
-        firestore.collection('users').doc(user.uid).set({
+        const db = getDatabase();
+        set(ref(db, 'users/' + user.uid), {
           fullName: fullName,
           email: email,
           mobile: mobile,
@@ -64,16 +66,29 @@ function Loginpage() {
           approved: false
         })
         .then(() => {
-          console.log('User data saved to Firestore');
+          console.log('User data saved to Realtime Database');
+          // Additional logic: Show message to user to wait for admin approval
+          setErrorMessage('Wait for Admin Approval. Check your email.');
         })
         .catch((error) => {
+          console.error('Error saving user data to Realtime Database:', error);
+          setErrorMessage(error.message);
+        });
+
+        // Save user data to Firestore
+        const firestore = getFirestore();
+        setDoc(firestoreDoc(firestore, 'users', user.uid), {
+          fullName: fullName,
+          email: email,
+          mobile: mobile,
+          barangay: barangay,
+          approved: false
+        }).then(() => {
+          console.log('User data saved to Firestore');
+        }).catch((error) => {
           console.error('Error saving user data to Firestore:', error);
         });
-        database.ref('users/' + user.uid).set({
-          email: email,
-          fullName: fullName,
-          approved: false
-        });
+
         console.log('User signed up:', user);
       })
       .catch((error) => {
@@ -84,10 +99,27 @@ function Loginpage() {
 
   const handleLoginSubmit = (e) => {
     e.preventDefault();
-    signInWithEmailAndPassword(getAuth(), email, password)
+    const auth = getAuth();
+    signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         const user = userCredential.user;
-        console.log('User logged in:', user);
+        
+        // Check if user is approved
+        const db = getDatabase();
+        const userRef = ref(db, 'users/' + user.uid);
+        get(userRef)
+          .then((snapshot) => {
+            const userData = snapshot.val();
+            if (userData && userData.approved) {
+              console.log('User logged in:', user);
+            } else {
+              setErrorMessage('Your account is not approved yet.');
+            }
+          })
+          .catch((error) => {
+            console.error('Error checking user approval status:', error);
+            setErrorMessage(error.message);
+          });
       })
       .catch((error) => {
         setErrorMessage(error.message);
@@ -129,6 +161,8 @@ function Loginpage() {
                 <div className="forms_field">
                   <select className="forms_field-input" value={barangay} onChange={handleBarangayChange} required>
                     <option value="">Select Barangay</option>
+                    <option value="Anoling 1st">Anoling 1st</option>
+                    <option value="Anoling 1st">Anoling 1st</option>
                     <option value="Anoling 1st">Anoling 1st</option>
 <option value="Anoling 2nd">Anoling 2nd</option>
 <option value="Anoling 3rd">Anoling 3rd</option>
@@ -190,7 +224,6 @@ function Loginpage() {
 <option value="Tambugan">Tambugan</option>
 <option value="Telbang">Telbang</option>
 <option value="Tuec">Tuec</option>
-
                   </select>
                 </div>
                 <div className="forms_field">

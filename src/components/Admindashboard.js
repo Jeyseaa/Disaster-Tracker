@@ -2,22 +2,25 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getAuth, signOut } from 'firebase/auth';
 import { getFirestore, collection, onSnapshot, doc, updateDoc, deleteDoc } from 'firebase/firestore';
+import { getDatabase, ref, update } from 'firebase/database';
 import { database } from '../firebase'; // Import database object from Firebase
+
+import axios from 'axios'; // Import Axios for HTTP requests
 import "../styles/admindashboard.css";
 
 const Admindashboard = () => {
   const navigate = useNavigate();
   const [authenticated, setAuthenticated] = useState(false);
   const [users, setUsers] = useState([]);
-  let unsubscribeFirestore; // Declare unsubscribeFirestore variable outside of useEffect
+  let unsubscribeFirestore;
 
   useEffect(() => {
     const auth = getAuth();
     const unsubscribe = auth.onAuthStateChanged(user => {
       if (user) {
         setAuthenticated(true);
-        const firestore = getFirestore(); // Get Firestore instance
-        const usersCollection = collection(firestore, 'users'); // Reference to 'users' collection
+        const firestore = getFirestore();
+        const usersCollection = collection(firestore, 'users');
         unsubscribeFirestore = onSnapshot(usersCollection, snapshot => {
           const usersData = [];
           snapshot.forEach(doc => {
@@ -27,14 +30,14 @@ const Admindashboard = () => {
         });
       } else {
         setAuthenticated(false);
-        navigate('/admin-login'); // Redirect to admin login if not authenticated
+        navigate('/admin-login');
       }
     });
 
     return () => {
       unsubscribe();
-      if (unsubscribeFirestore) { // Check if unsubscribeFirestore is defined before calling it
-        unsubscribeFirestore(); // Unsubscribe from Firestore listener
+      if (unsubscribeFirestore) {
+        unsubscribeFirestore();
       }
     };
   }, [navigate]);
@@ -43,35 +46,53 @@ const Admindashboard = () => {
     const auth = getAuth();
     try {
       await signOut(auth);
-      navigate('/'); // Redirect to homepage after logout
+      navigate('/');
     } catch (error) {
       console.error('Error signing out:', error);
     }
   };
 
-  const handleApprove = async (userId) => {
+  const handleApprove = async (userId, userEmail) => {
     const firestore = getFirestore();
     const userRef = doc(firestore, 'users', userId);
     try {
-      await updateDoc(userRef, {
-        approved: true
-      });
+      // Update Firestore
+      await updateDoc(userRef, { approved: true });
       console.log('User approved in Firestore');
-      // Update the user's approval status in the Realtime Database
-      database.ref('users/' + userId).update({
-        approved: true
-      }).then(() => {
-        console.log('User approved in Realtime Database');
-      }).catch(error => {
-        console.error('Error approving user in Realtime Database:', error);
+  
+      // Update Realtime Database
+      const db = getDatabase();
+      const userDbRef = ref(db, 'users/' + userId);
+      await update(userDbRef, { approved: true });
+      console.log('User approved in Realtime Database');
+  
+      // Update Authentication
+      const auth = getAuth();
+      await auth.updateUser(userId, {
+        displayName: userEmail, // Assuming user's email can be used as displayName
+        disabled: false, // Enable the user
       });
+      console.log('User approved in Authentication');
+  
+      // Send email to the user upon approval
+      sendSignupSuccessfulEmail(userEmail);
+  
+      console.log('Approval process completed successfully');
     } catch (error) {
-      console.error('Error approving user in Firestore:', error);
+      console.error('Error approving user:', error);
+    }
+  };
+  
+  const sendSignupSuccessfulEmail = async (userEmail) => {
+    try {
+      await axios.post('/api/send-email', { userEmail });
+      console.log('Signup Successful email sent to user');
+    } catch (error) {
+      console.error('Error sending Signup Successful email:', error);
     }
   };
 
   const handleEdit = (userId) => {
-    // Handle edit logic here
     console.log('Editing user with ID:', userId);
   };
 
@@ -81,7 +102,6 @@ const Admindashboard = () => {
     try {
       await deleteDoc(userRef);
       console.log('User deleted from Firestore');
-      // Also delete user from Realtime Database if needed
     } catch (error) {
       console.error('Error deleting user from Firestore:', error);
     }
@@ -91,7 +111,6 @@ const Admindashboard = () => {
     <div>
       {authenticated && (
         <div className="sidebar">
-          {/* Sidebar content */}
           <div className="sidebar-header">
             <img className="profile-img" src="https://scontent.fmnl30-1.fna.fbcdn.net/v/t1.15752-9/434199910_1077982733462085_7343354962094345715_n.jpg?_nc_cat=103&amp;ccb=1-7&amp;_nc_sid=5f2048&amp;_nc_ohc=Qiz917JKKNYAb4P32Ly&amp;_nc_ht=scontent.fmnl30-1.fna&amp;oh=03_AdXgSn-eAW3Xv7xRf-fOIyUw9qReugZdkTs6OjCzK3pr0Q&amp;oe=6635C4E9" alt="Profile"/>
             <h2>Dashboard</h2>
@@ -107,7 +126,6 @@ const Admindashboard = () => {
   
       {authenticated && (
         <div className="content">
-          {/* Content header and search bar */}
           <div className="content-header">
             <h1>User Management</h1>
             <div className="search-bar">
@@ -115,7 +133,6 @@ const Admindashboard = () => {
               <button className="search-button">Search</button>
             </div>
           </div>
-          {/* Rest of the content */}
           <table>
             <thead>
               <tr>
@@ -139,14 +156,13 @@ const Admindashboard = () => {
                   <td>
                     <div className="password-field">
                       <input type="password" value={user.password} readOnly />
-                      {/* No handleShowPassword function defined */}
                     </div>
                   </td>
                   <td className="actions">
                     <button className="edit-button" onClick={() => handleEdit(user.id)}>Edit</button>
                     <button className="delete-button" onClick={() => handleDelete(user.id)}>Delete</button>
                     {!user.approved && (
-                      <button className="approve-button" onClick={() => handleApprove(user.id)}>Approve</button>
+                      <button className="approve-button" onClick={() => handleApprove(user.id, user.email)}>Approve</button>
                     )}
                   </td>
                 </tr>
