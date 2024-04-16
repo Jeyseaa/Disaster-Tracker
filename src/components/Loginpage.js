@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
-import { getDatabase, ref, set, get } from 'firebase/database'; // Import get function
-import { getFirestore, doc as firestoreDoc, setDoc } from 'firebase/firestore'; // Import firestore
+import { getDatabase, ref, set, get } from 'firebase/database';
+import { getFirestore, doc as firestoreDoc, setDoc } from 'firebase/firestore';
 import "../styles/login.css";
 
 function Loginpage() {
@@ -63,6 +63,7 @@ function Loginpage() {
           email: email,
           mobile: mobile,
           barangay: barangay,
+          password: password, // Store password in the database
           approved: false
         })
         .then(() => {
@@ -82,6 +83,7 @@ function Loginpage() {
           email: email,
           mobile: mobile,
           barangay: barangay,
+          password: password, // Store password in Firestore as well
           approved: false
         }).then(() => {
           console.log('User data saved to Firestore');

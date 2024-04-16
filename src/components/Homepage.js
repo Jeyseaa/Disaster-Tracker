@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import '../styles/homepage.css'; 
 import "../styles/custom.slider.css"; 
 import '@fortawesome/fontawesome-free/css/all.css';
+import CustomCarousel from "./CustomCarousel";
 
 function Homepage() {
   const [authenticated] = useState(false);
@@ -63,17 +64,17 @@ function Homepage() {
               </section>
             </div>
           </section>
-       {/* Add the CustomCarousel component here if needed */}
-       {/* <CustomCarousel>
-            Add children for the carousel
+      
+          <CustomCarousel>
+            
             <img src="https://moncadatarlac.gov.ph/wp-content/uploads/2024/01/422917710_982735346532836_4579899017081015332_n.jpg" alt="Slide 1" />
             <img src="https://scontent.fmnl30-2.fna.fbcdn.net/v/t31.18172-8/15800084_1356534537752634_6787498943745352373_o.jpg?_nc_cat=111&ccb=1-7&_nc_sid=5f2048&_nc_eui2=AeHjYWBA8Adko3Rx79fA7cw-6zxvUDkvrZjrPG9QOS-tmI-k53Bk_iX_H4Rcrd7ujWxjSZ4TUUsySJ25Nn59EuQA&_nc_ohc=dYbJSt_vlywAX_hzvU5&_nc_ht=scontent.fmnl30-2.fna&oh=00_AfAw_7QnD-xBWJOvTgXIH2Engu3M0_1IYCLEXnVgoKd3Wg&oe=6631D3BB" alt="Slide 2" />
             <img src="https://scontent.fmnl30-3.fna.fbcdn.net/v/t39.30808-6/365466649_612065911061369_3601836126591747095_n.jpg?stp=cp6_dst-jpg&_nc_cat=101&ccb=1-7&_nc_sid=5f2048&_nc_ohc=OrBWxSd1c_EAb6A18Qz&_nc_ht=scontent.fmnl30-3.fna&oh=00_AfCtAZ2H-LPMgOxJqb497mZubtkzzCC9NcZpbKaea90uAg&oe=661A9A48" alt="Slide 3" />
-          </CustomCarousel> */}
+          </CustomCarousel>
         </div>
 
         <div className="col-xs-12 col-sm-6">
-          {/* Add the remaining content of the Homepage here */}
+          
           <div className="row">
             <div className="col-xs-11 col-sm-7 col-md-8" id="section2">
               <div className="well extra-space">

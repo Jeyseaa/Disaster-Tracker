@@ -3,16 +3,15 @@ import { useNavigate } from 'react-router-dom';
 import { getAuth, signOut } from 'firebase/auth';
 import { getFirestore, collection, onSnapshot, doc, updateDoc, deleteDoc } from 'firebase/firestore';
 import { getDatabase, ref, update } from 'firebase/database';
-import { database } from '../firebase'; // Import database object from Firebase
-
-import axios from 'axios'; // Import Axios for HTTP requests
+import axios from 'axios';
+import { database } from '../firebase';
 import "../styles/admindashboard.css";
 
 const Admindashboard = () => {
   const navigate = useNavigate();
   const [authenticated, setAuthenticated] = useState(false);
   const [users, setUsers] = useState([]);
-  let unsubscribeFirestore;
+  const [showPassword, setShowPassword] = useState({});
 
   useEffect(() => {
     const auth = getAuth();
@@ -21,7 +20,7 @@ const Admindashboard = () => {
         setAuthenticated(true);
         const firestore = getFirestore();
         const usersCollection = collection(firestore, 'users');
-        unsubscribeFirestore = onSnapshot(usersCollection, snapshot => {
+        onSnapshot(usersCollection, snapshot => {
           const usersData = [];
           snapshot.forEach(doc => {
             usersData.push({ id: doc.id, ...doc.data() });
@@ -36,9 +35,6 @@ const Admindashboard = () => {
 
     return () => {
       unsubscribe();
-      if (unsubscribeFirestore) {
-        unsubscribeFirestore();
-      }
     };
   }, [navigate]);
 
@@ -56,27 +52,23 @@ const Admindashboard = () => {
     const firestore = getFirestore();
     const userRef = doc(firestore, 'users', userId);
     try {
-      // Update Firestore
       await updateDoc(userRef, { approved: true });
       console.log('User approved in Firestore');
-  
-      // Update Realtime Database
+
       const db = getDatabase();
       const userDbRef = ref(db, 'users/' + userId);
       await update(userDbRef, { approved: true });
       console.log('User approved in Realtime Database');
-  
-      // Update Authentication
+
       const auth = getAuth();
       await auth.updateUser(userId, {
-        displayName: userEmail, // Assuming user's email can be used as displayName
-        disabled: false, // Enable the user
+        displayName: userEmail,
+        disabled: false,
       });
       console.log('User approved in Authentication');
-  
-      // Send email to the user upon approval
+
       sendSignupSuccessfulEmail(userEmail);
-  
+
       console.log('Approval process completed successfully');
     } catch (error) {
       console.error('Error approving user:', error);
@@ -105,6 +97,13 @@ const Admindashboard = () => {
     } catch (error) {
       console.error('Error deleting user from Firestore:', error);
     }
+  };
+
+  const togglePasswordVisibility = (userId) => {
+    setShowPassword(prevState => ({
+      ...prevState,
+      [userId]: !prevState[userId]
+    }));
   };
 
   return (
@@ -155,7 +154,12 @@ const Admindashboard = () => {
                   <td>{user.barangay}</td>
                   <td>
                     <div className="password-field">
-                      <input type="password" value={user.password} readOnly />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                      <input type={showPassword[user.id] ? "text" : "password"} value={user.password ? user.password : ''} readOnly />
+                      <label>
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Show Password &nbsp;
+                        <input type="checkbox" checked={showPassword[user.id]} onChange={() => togglePasswordVisibility(user.id)} />
+                      </label>
                     </div>
                   </td>
                   <td className="actions">
